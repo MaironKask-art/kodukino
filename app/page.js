@@ -293,7 +293,6 @@ export default function Home() {
         saal: valitudSeanss.saal,
         aeg: `${valitudSeanss.kuupaev} (${valitudSeanss.algusAeg} - ${valitudSeanss.loppAeg})`,
         kohad: [...valitudKohad],
-        hind: kogusumma,
         kuupaev: new Date().toLocaleDateString('et-EE')
       };
 
