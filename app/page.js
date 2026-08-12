@@ -57,9 +57,18 @@ export default function Home() {
   const laeSeansid = async () => {
     const { data, error } = await supabase.from('seansid').select('*');
     if (!error && data && data.length > 0) {
-      setSeansid(data);
+      // Teisendame andmebaasi väljad koodi kujule
+      const kohandatudData = data.map(s => ({
+        ...s,
+        algusAeg: s.algus_aeg || s.algusAeg || '18:00',
+        loppAeg: s.lopp_aeg || s.loppAeg || '20:00',
+        piltUrl: s.pilt_url || s.piltUrl || '',
+        treilerUrl: s.treiler_url || s.treilerUrl || '',
+        piletiHind: s.pileti_hind || s.piletiHind || 8.00,
+        kohtiRias: s.kohti_rias || s.kohtiRias || 2
+      }));
+      setSeansid(kohandatudData);
     } else {
-      // Vaikimisi varuseanss kui andmebaas on tühi
       setSeansid([
         {
           id: 's-1',
@@ -86,9 +95,12 @@ export default function Home() {
   const laeBannerid = async () => {
     const { data, error } = await supabase.from('bannerid').select('*');
     if (!error && data && data.length > 0) {
-      setBannerid(data);
+      const kohandatudData = data.map(b => ({
+        ...b,
+        piltUrl: b.pildi_url || b.piltUrl || ''
+      }));
+      setBannerid(kohandatudData);
     } else {
-      // Vaikimisi bännerid
       setBannerid([
         { id: 1, pealkiri: "SUUR KAMPAANIA: Klubilistele popkorn poole soodsamalt!", tyyp: "Kampaania", varv: "bg-gradient-to-r from-purple-900 to-indigo-900", piltUrl: "" },
         { id: 2, pealkiri: "TULEKUL: Kosmiline Odüsseia 2026 – Esilinastus juba juunis!", tyyp: "Uus Film", varv: "bg-gradient-to-r from-amber-900 to-red-950", piltUrl: "" }
@@ -147,59 +159,87 @@ export default function Home() {
     e.preventDefault();
     if (!uusSeanss.pealkiri) return;
     const [ridu, kohtiRias] = uusSeanss.saaliSuurus.split('x').map(Number);
-    
-    const uusObjekt = {
-      id: `s-${Date.now()}`,
+   
+    const seansiId = `s-${Date.now()}`;
+    const hind = parseFloat(uusSeanss.piletiHind) || 8.00;
+
+    // Supabase jaoks mõeldud andmeobjekt (Sobitatud veergude nimedega)
+    const dbObjekt = {
+      id: seansiId,
       pealkiri: uusSeanss.pealkiri,
       zanr: uusSeanss.zanr,
       vanusepiirang: uusSeanss.vanusepiirang,
       kuupaev: uusSeanss.kuupaev,
-      algusAeg: uusSeanss.algusAeg,
-      loppAeg: uusSeanss.loppAeg,
+      algus_aeg: uusSeanss.algusAeg,
+      lopp_aeg: uusSeanss.loppAeg,
       saal: uusSeanss.saal,
       ridu: ridu || 1,
-      kohtiRias: kohtiRias || 2,
+      kohti_rias: kohtiRias || 2,
       keel: uusSeanss.keel,
       subtiitrid: uusSeanss.subtiitrid,
       kirjeldus: uusSeanss.kirjeldus,
-      piltUrl: uusSeanss.piltUrl,
-      treilerUrl: uusSeanss.treilerUrl,
-      piletiHind: parseFloat(uusSeanss.piletiHind) || 8.00
+      pilt_url: uusSeanss.piltUrl,
+      treiler_url: uusSeanss.treilerUrl,
+      pileti_hind: hind
+    };
+
+    // Kohalik olekuobjekt koodi jaoks
+    const koodiObjekt = {
+      ...uusSeanss,
+      id: seansiId,
+      ridu: ridu || 1,
+      kohtiRias: kohtiRias || 2,
+      piletiHind: hind
     };
 
     // Saadame Supabase'i
-    const { error } = await supabase.from('seansid').insert([uusObjekt]);
+    const { error } = await supabase.from('seansid').insert([dbObjekt]);
 
     if (error) {
-      console.log('Teade Supabase seanssidest:', error.message);
+      console.error('Viga seansi salvestamisel Supabase-i:', error.message);
+      alert('Viga salvestamisel: ' + error.message);
+      return;
     }
 
-    // Lisame ka ekraanile
-    const uued = [...seansid, uusObjekt].sort((a, b) => (a.kuupaev + a.algusAeg).localeCompare(b.kuupaev + b.algusAeg));
+    const uued = [...seansid, koodiObjekt].sort((a, b) => (a.kuupaev + a.algusAeg).localeCompare(b.kuupaev + b.algusAeg));
     setSeansid(uued);
 
     setUusSeanss({ pealkiri: '', zanr: '', vanusepiirang: 'Pere', kuupaev: tananeKuupaev, algusAeg: '18:00', loppAeg: '20:00', saal: 'Saal 1', saaliSuurus: '1x2', keel: 'Eesti keeles', subtiitrid: 'Eesti', kirjeldus: '', piltUrl: '', treilerUrl: '', piletiHind: 8.50 });
-    alert('Uus seanss lisatud ja salvestatud!');
+    alert('Uus seanss edukalt lisatud ja salvestatud Supabase-i!');
   };
 
   // 3. SALVESTA BÄNNER SUPABASE'I
   const lisaBanner = async (e) => {
     e.preventDefault();
     if (!uusBanner.pealkiri) return;
-    
-    const uusObj = { pealkiri: uusBanner.pealkiri, tyyp: uusBanner.tyyp, piltUrl: uusBanner.piltUrl, varv: uusBanner.varv };
-    
-    await supabase.from('bannerid').insert([uusObj]);
+   
+    const dbBanner = { 
+      pealkiri: uusBanner.pealkiri, 
+      tyyp: uusBanner.tyyp, 
+      pildi_url: uusBanner.piltUrl, 
+      varv: uusBanner.varv 
+    };
+   
+    const { error } = await supabase.from('bannerid').insert([dbBanner]);
 
-    setBannerid([...bannerid, { id: Date.now(), ...uusObj }]);
+    if (error) {
+      console.error('Viga bänneri salvestamisel:', error.message);
+      alert('Viga bänneri salvestamisel: ' + error.message);
+      return;
+    }
+
+    setBannerid([...bannerid, { id: Date.now(), ...uusBanner }]);
     setUusBanner({ pealkiri: '', tyyp: 'Kampaania', piltUrl: '', varv: 'bg-gradient-to-r from-purple-900 to-indigo-900' });
-    alert('Uus bänner lisatud!');
+    alert('Uus bänner edukalt lisatud Supabase-i!');
   };
 
   // 4. KUSTUTA BÄNNER SUPABASE'IST
   const kustutaBanner = async (id) => {
     if (bannerid.length <= 1) return alert('Vähemalt 1 bänner peab alles jääma!');
-    await supabase.from('bannerid').delete().eq('id', id);
+    const { error } = await supabase.from('bannerid').delete().eq('id', id);
+    if (error) {
+      console.error('Viga bänneri kustutamisel:', error.message);
+    }
     setBannerid(bannerid.filter(b => b.id !== id));
     setAktiivneBanner(0);
   };
@@ -207,7 +247,10 @@ export default function Home() {
   // 5. KUSTUTA SEANSS SUPABASE'IST
   const kustutaSeanss = async (id) => {
     if (confirm('Kas oled kindel, et soovid selle seansi kustutada?')) {
-      await supabase.from('seansid').delete().eq('id', id);
+      const { error } = await supabase.from('seansid').delete().eq('id', id);
+      if (error) {
+        console.error('Viga seansi kustutamisel:', error.message);
+      }
       setSeansid(seansid.filter(s => s.id !== id));
     }
   };
