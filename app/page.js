@@ -514,7 +514,6 @@ export default function Home() {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <input type="text" placeholder="Algusaeg (nt 18:00)" value={uusSeanss.algusAeg} onChange={(e) => setUusSeanss({...uusSeanss, algusAeg: e.target.value})} className="bg-zinc-800 border border-gray-700 rounded p-2.5 text-white" />
                     <input type="text" placeholder="Lõppaeg (nt 20:00)" value={uusSeanss.loppAeg} onChange={(e) => setUusSeanss({...uusSeanss, loppAeg: e.target.value})} className="bg-zinc-800 border border-gray-700 rounded p-2.5 text-white" />
-                    <input type="number" step="0.10" placeholder="Pileti hind (€)" value={uusSeanss.piletiHind} onChange={(e) => setUusSeanss({...uusSeanss, piletiHind: e.target.value})} className="w-full bg-zinc-800 border border-gray-700 rounded p-2.5 text-white" />
                   </div>
                  
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
