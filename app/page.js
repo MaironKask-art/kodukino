@@ -41,7 +41,7 @@ export default function Home() {
   // Uue seansi vorm
   const [uusSeanss, setUusSeanss] = useState({
     pealkiri: '', zanr: '', vanusepiirang: 'Pere', kuupaev: tananeKuupaev, algusAeg: '18:00', loppAeg: '20:00',
-    saal: 'Saal 1', saaliSuurus: '1x2', keel: 'Eesti keeles', subtiitrid: 'Eesti', kirjeldus: '', piltUrl: '', treilerUrl
+    saal: 'Saal 1', saaliSuurus: '1x2', keel: 'Eesti keeles', subtiitrid: 'Eesti', kirjeldus: '', piltUrl: '', treilerUrl: ''
   });
 
   const [uusBanner, setUusBanner] = useState({
