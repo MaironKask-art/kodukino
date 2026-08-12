@@ -283,9 +283,6 @@ export default function Home() {
     if (error) {
       alert('Viga broneerimisel: ' + error.message);
     } else {
-      const hindArvuna = Number(valitudSeanss.piletiHind);
-      const tegelikHind = !isNaN(hindArvuna) ? hindArvuna : 8;
-      const kogusumma = (valitudKohad.length * tegelikHind).toFixed(2);
      
       const uusPilet = {
         piletiKood: `KINO-${Math.floor(100000 + Math.random() * 900000)}`,
