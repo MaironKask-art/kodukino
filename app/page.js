@@ -284,7 +284,9 @@ export default function Home() {
     if (error) {
       alert('Viga broneerimisel: ' + error.message);
     } else {
-      const kogusumma = (valitudKohad.length * (valitudSeanss.piletiHind ?? 8)).toFixed(2);
+      const hindArvuna = Number(valitudSeanss.piletiHind);
+      const tegelikHind = !isNaN(hindArvuna) ? hindArvuna : 8;
+      const kogusumma = (valitudKohad.length * tegelikHind).toFixed(2);
      
       const uusPilet = {
         piletiKood: `KINO-${Math.floor(100000 + Math.random() * 900000)}`,
@@ -619,7 +621,7 @@ export default function Home() {
                         <div className="flex items-center gap-2 mb-1">
                           <span className="text-[10px] bg-red-950 text-red-400 border border-red-800 px-1.5 py-0.5 rounded font-bold uppercase">{seanss.vanusepiirang || 'Pere'}</span>
                           <span className="text-[10px] bg-zinc-800 text-gray-400 px-1.5 py-0.5 rounded font-mono">{seanss.kuupaev}</span>
-                          <span className="text-[10px] bg-[#ffcc00]/10 text-[#ffcc00] border border-[#ffcc00]/30 px-1.5 py-0.5 rounded font-bold">{seanss.piletiHind ?? 8.00} €</span>
+                          <span className="text-[10px] bg-[#ffcc00]/10 text-[#ffcc00] border border-[#ffcc00]/30 px-1.5 py-0.5 rounded font-bold">{seanss.piletiHind !== undefined && seanss.piletiHind !== null&& seanss.piletiHind !== '' ? seanss.piletiHind : 8.00} €</span>
                         </div>
                         <h4 className="text-lg font-bold text-white group-hover:text-[#ffcc00] transition">{seanss.pealkiri}</h4>
                         <div className="text-xs text-gray-400">{seanss.zanr} • {seanss.saal}</div>
@@ -656,7 +658,7 @@ export default function Home() {
 
             <div className="bg-black/50 p-3 rounded-xl border border-gray-800 mb-4 grid grid-cols-2 gap-2 text-xs">
               <div><span className="text-gray-500 block">Kellaaeg:</span><strong className="text-[#ffcc00]">{valitudSeanss.algusAeg} - {valitudSeanss.loppAeg}</strong></div>
-              <div><span className="text-gray-500 block">Pileti hind:</span><strong className="text-white">{valitudSeanss.piletiHind ?? 8.00} €</strong></div>
+              <div><span className="text-gray-500 block">Pileti hind:</span><strong className="text-white">{valitudSeanss.piletiHind !== undefined && valitudSeanss.piletiHind !== null ? valitudSeanss.piletiHind : 8.00} €</strong></div>
               <div><span className="text-gray-500 block">Keel:</span><strong className="text-white">{valitudSeanss.keel || 'Eesti keeles'}</strong></div>
               <div><span className="text-gray-500 block">Subtiitrid:</span><strong className="text-white">{valitudSeanss.subtiitrid || 'Puuduvad'}</strong></div>
             </div>
@@ -717,7 +719,7 @@ export default function Home() {
               disabled={valitudKohad.length === 0} onClick={kinnitaBroneering}
               className={`w-full font-extrabold py-3.5 rounded-xl transition ${valitudKohad.length > 0 ? 'bg-[#ffcc00] text-black hover:bg-yellow-400' : 'bg-zinc-800 text-gray-500 cursor-not-allowed'}`}
             >
-              Kinnita broneering ({(valitudKohad.length * (valitudSeanss.piletiHind ?? 8)).toFixed(2)} €)
+              Kinnita broneering {((valitudKohad.length * (valitudSeanss.piletiHind !== undefined && valitudSeanss.piletiHind!== null && valitudSeans.piletiHind !== '' ? Number(valitudSeanss.piletiHind) : 8)).toFixed(2)} €)
             </button>
           </div>
         </div>
