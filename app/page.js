@@ -161,7 +161,7 @@ export default function Home() {
     const [ridu, kohtiRias] = uusSeanss.saaliSuurus.split('x').map(Number);
    
     const seansiId = `s-${Date.now()}`;
-    const hind = parseFloat(uusSeanss.piletiHind) || 8.00;
+    const hind = uusSeanss.piletiHind !== '' && !isNaN(uusSeanss.piletiHind) ? parseFloat(uusSeanss.piletHind) : 8.00;
 
     // Supabase jaoks mõeldud andmeobjekt (Sobitatud veergude nimedega)
     const dbObjekt = {
