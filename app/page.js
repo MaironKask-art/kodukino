@@ -200,7 +200,7 @@ export default function Home() {
     const uued = [...seansid, koodiObjekt].sort((a, b) => (a.kuupaev + a.algusAeg).localeCompare(b.kuupaev + b.algusAeg));
     setSeansid(uued);
 
-    setUusSeanss({ pealkiri: '', zanr: '', vanusepiirang: 'Pere', kuupaev: tananeKuupaev, algusAeg: '18:00', loppAeg: '20:00', saal: 'Saal 1', saaliSuurus: '1x2', keel: 'Eesti keeles', subtiitrid: 'Eesti', kirjeldus: '', piltUrl: '', treilerUrl: '', piletiHind: 8.50 });
+    setUusSeanss({ pealkiri: '', zanr: '', vanusepiirang: 'Pere', kuupaev: tananeKuupaev, algusAeg: '18:00', loppAeg: '20:00', saal: 'Saal 1', saaliSuurus: '1x2', keel: 'Eesti keeles', subtiitrid: 'Eesti', kirjeldus: '', piltUrl: '', treilerUrl});
     alert('Uus seanss edukalt lisatud ja salvestatud Supabase-i!');
   };
 
@@ -534,7 +534,7 @@ export default function Home() {
                     <div key={s.id} className="flex justify-between items-center bg-zinc-800 p-3 rounded border border-gray-700 text-xs">
                       <div>
                         <span className="bg-zinc-700 text-[#ffcc00] px-1.5 py-0.5 rounded font-mono mr-2">{s.kuupaev}</span>
-                        <strong className="text-[#ffcc00]">{s.algusAeg}</strong> - {s.pealkiri} ({s.piletiHind} €)
+                        <strong className="text-[#ffcc00]">{s.algusAeg}</strong> - {s.pealkiri}
                       </div>
                       <button onClick={() => kustutaSeanss(s.id)} className="bg-red-600 hover:bg-red-700 text-white font-bold px-2.5 py-1 rounded">Kustuta</button>
                     </div>
