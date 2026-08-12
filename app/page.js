@@ -41,7 +41,7 @@ export default function Home() {
   // Uue seansi vorm
   const [uusSeanss, setUusSeanss] = useState({
     pealkiri: '', zanr: '', vanusepiirang: 'Pere', kuupaev: tananeKuupaev, algusAeg: '18:00', loppAeg: '20:00',
-    saal: 'Saal 1', saaliSuurus: '1x2', keel: 'Eesti keeles', subtiitrid: 'Eesti', kirjeldus: '', piltUrl: '', treilerUrl: '', piletiHind: 8.50
+    saal: 'Saal 1', saaliSuurus: '1x2', keel: 'Eesti keeles', subtiitrid: 'Eesti', kirjeldus: '', piltUrl: '', treilerUrl
   });
 
   const [uusBanner, setUusBanner] = useState({
@@ -64,7 +64,6 @@ export default function Home() {
         loppAeg: s.lopp_aeg || s.loppAeg || '20:00',
         piltUrl: s.pilt_url || s.piltUrl || '',
         treilerUrl: s.treiler_url || s.treilerUrl || '',
-        piletiHind: s.pileti_hind || s.piletiHind || 8.00,
         kohtiRias: s.kohti_rias || s.kohtiRias || 2
       }));
       setSeansid(kohandatudData);
@@ -179,7 +178,6 @@ export default function Home() {
       kirjeldus: uusSeanss.kirjeldus,
       pilt_url: uusSeanss.piltUrl,
       treiler_url: uusSeanss.treilerUrl,
-      pileti_hind: hind
     };
 
     // Kohalik olekuobjekt koodi jaoks
@@ -188,7 +186,6 @@ export default function Home() {
       id: seansiId,
       ridu: ridu || 1,
       kohtiRias: kohtiRias || 2,
-      piletiHind: hind
     };
 
     // Saadame Supabase'i
@@ -380,7 +377,6 @@ export default function Home() {
                       <div><span className="text-gray-500">Aeg / Kuupäev:</span> <strong className="text-[#ffcc00]">{pilet.aeg}</strong></div>
                       <div><span className="text-gray-500">Saal:</span> <strong>{pilet.saal}</strong></div>
                       <div><span className="text-gray-500">Kohad:</span> <strong className="text-white bg-zinc-800 px-2 py-0.5 rounded border border-gray-700">{pilet.kohad.join(', ')}</strong></div>
-                      <div><span className="text-gray-500">Kogusumma:</span> <strong>{pilet.hind} €</strong></div>
                     </div>
 
                     <div className="flex items-center justify-between pt-2">
