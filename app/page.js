@@ -41,7 +41,7 @@ export default function Home() {
   // Uue seansi vorm
   const [uusSeanss, setUusSeanss] = useState({
     pealkiri: '', zanr: '', vanusepiirang: 'Pere', kuupaev: tananeKuupaev, algusAeg: '18:00', loppAeg: '20:00',
-    saal: 'Saal 1', saaliSuurus: '1x2', keel: 'Eesti keeles', subtiitrid: 'Eesti', kirjeldus: '', piltUrl: '', treilerUrl: ''
+    saal: '', saaliSuurus: '1x2', keel: 'Eesti keeles', subtiitrid: 'Eesti', kirjeldus: '', piltUrl: '', treilerUrl: ''
   });
 
   const [uusBanner, setUusBanner] = useState({
@@ -462,7 +462,18 @@ export default function Home() {
                     <input type="text" required placeholder="Filmi pealkiri" value={uusSeanss.pealkiri} onChange={(e) => setUusSeanss({...uusSeanss, pealkiri: e.target.value})} className="bg-zinc-800 border border-gray-700 rounded p-2.5 text-white" />
                     <input type="text" placeholder="Žanr (nt Draama, Märul)" value={uusSeanss.zanr} onChange={(e) => setUusSeanss({...uusSeanss, zanr: e.target.value})} className="bg-zinc-800 border border-gray-700 rounded p-2.5 text-white" />
                   </div>
-
+                  
+                  <div>
+                    <label className="text-[10px] text-gray-400 block mb-1">Saal:</label>
+                    <input
+                      type="text"
+                      placeholder="nt Saal 1 või VIP"
+                      value={uusSeanss.saal}
+                      onChange={(e) => setUusSeanss({...uusSeanss, saal: e. target.value})}
+                      classname="w-full bg-zinc-800 border-gray-700 rounded p-2.5 text-white text-xs"
+                    />
+                  </div>
+                  
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <label className="text-[10px] text-gray-400 block mb-1">Seansi kuupäev:</label>
