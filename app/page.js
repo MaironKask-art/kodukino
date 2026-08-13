@@ -77,7 +77,7 @@ export default function Home() {
           kuupaev: tananeKuupaev,
           algusAeg: '12:00',
           loppAeg: '13:40',
-          saal: 'Saal 1 (Väike)',
+          saal: 'saal 1 (väike)',
           ridu: 1,
           kohtiRias: 2,
           keel: 'Eesti keeles',
